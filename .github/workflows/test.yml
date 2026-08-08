@@ -1,0 +1,30 @@
+name: Laravel_test
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu_latest
+    steps:
+      - name: Récuperer le code
+        uses: actions/chekout@4
+
+      - name: installer php
+        uses: shivammathur/setup-php@2
+        with:
+          php-version: '8.2'
+          extension: mbstring, pdo_sqlite, sqlite3
+
+
+
+      - name: installer les dependances
+        run:  composer installer
+
+      - name: Préparer l'environnement
+        run: |
+          cp .env.example .env 
+          php artisan key:generate 
+              
+      - name: Lancer les testes
+        run: php artisan test    
+
